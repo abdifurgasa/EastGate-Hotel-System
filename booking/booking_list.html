@@ -1,1 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Booking List - East Gate Hotel</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f4f6f9;
+}
+
+.main{
+padding:20px;
+}
+
+table{
+width:100%;
+background:white;
+border-radius:10px;
+overflow:hidden;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+text-align:left;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#0f2027;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+<h2>📋 Booking List</h2>
+
+<table>
+<thead>
+<tr>
+<th>Room</th>
+<th>Customer</th>
+<th>Amount</th>
+<th>Date</th>
+</tr>
+</thead>
+
+<tbody id="bookingTable"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+/* Load booking data */
+
+function loadBookings(){
+
+let data = localStorage.getItem("hotelMaster");
+
+if(!data) return;
+
+let system = JSON.parse(data);
+
+let bookings = system.bookings || [];
+
+let html="";
+
+bookings.forEach(b=>{
+
+html+=`
+<tr>
+<td>${b.room}</td>
+<td>${b.customer}</td>
+<td>${b.amount}</td>
+<td>${b.date}</td>
+</tr>
+`;
+
+});
+
+document.getElementById("bookingTable").innerHTML = html;
+}
+
+loadBookings();
+
+</script>
+
+</body>
+</html>
