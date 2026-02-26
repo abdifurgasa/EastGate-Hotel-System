@@ -1,70 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>New Booking - East Gate Hotel</title>
+<title>New Booking</title>
 
-<style>
-
-body{
-    font-family: Arial;
-    background:#f4f6f9;
-    margin:0;
-}
-
-.container{
-    width:400px;
-    margin:50px auto;
-    background:white;
-    padding:30px;
-    border-radius:10px;
-}
-
-input, select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-}
-
-button{
-    width:100%;
-    padding:12px;
-    background:#0f2027;
-    color:white;
-    border:none;
-    cursor:pointer;
-}
-
-button:hover{
-    background:#2c5364;
-}
-
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
 
-<body>
+<body style="font-family:Arial;padding:20px;background:#f4f6f9">
 
-<div class="container">
+<h2>➕ New Booking</h2>
 
-<h2>📅 New Booking</h2>
+<input id="room" placeholder="Room Name" style="width:100%;padding:10px;margin:8px 0">
 
-<input type="text" placeholder="Guest Name">
+<input id="customer" placeholder="Customer Name" style="width:100%;padding:10px;margin:8px 0">
 
-<input type="text" placeholder="Phone Number">
+<input id="amount" placeholder="Amount" style="width:100%;padding:10px;margin:8px 0">
 
-<select>
-<option>Select Room Type</option>
-<option>Single Room</option>
-<option>Double Room</option>
-<option>VIP Room</option>
-<option>Suite Room</option>
-</select>
+<button onclick="saveBooking()" style="padding:12px;width:100%;background:purple;color:white;border:none">
+Save Booking
+</button>
 
-<input type="date">
+<script>
 
-<button>Confirm Booking</button>
+function saveBooking(){
 
-</div>
+let room=document.getElementById("room").value;
+let customer=document.getElementById("customer").value;
+let amount=document.getElementById("amount").value;
+
+if(!room || !customer || !amount){
+alert("Fill all fields");
+return;
+}
+
+let today=new Date().toLocaleDateString();
+
+let data=localStorage.getItem("hotelMaster");
+
+let system=data?JSON.parse(data):{bookings:[]};
+
+system.bookings.push({
+room,
+customer,
+amount,
+date:today
+});
+
+localStorage.setItem("hotelMaster",JSON.stringify(system));
+
+alert("Booking Saved");
+location.href="booking-list.html";
+}
+
+</script>
 
 </body>
 </html>
