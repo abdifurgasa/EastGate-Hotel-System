@@ -1,99 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Booking List - East Gate Hotel</title>
+<title>New Booking</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#f4f6f9;
-}
-
-.main{
-padding:20px;
-}
-
-table{
-width:100%;
-background:white;
-border-radius:10px;
-overflow:hidden;
-border-collapse:collapse;
-}
-
-th,td{
-padding:12px;
-text-align:left;
-border-bottom:1px solid #eee;
-}
-
-th{
-background:#0f2027;
-color:white;
-}
-
-</style>
 </head>
 
-<body>
+<body style="font-family:Arial;padding:20px;background:#f4f6f9">
 
-<div class="main">
+<h2>➕ New Booking</h2>
 
-<h2>📋 Booking List</h2>
+<input id="room" placeholder="Room Name" style="width:100%;padding:10px;margin:8px 0">
 
-<table>
-<thead>
-<tr>
-<th>Room</th>
-<th>Customer</th>
-<th>Amount</th>
-<th>Date</th>
-</tr>
-</thead>
+<input id="customer" placeholder="Customer Name" style="width:100%;padding:10px;margin:8px 0">
 
-<tbody id="bookingTable"></tbody>
+<input id="amount" placeholder="Amount" style="width:100%;padding:10px;margin:8px 0">
 
-</table>
-
-</div>
+<button onclick="saveBooking()" style="padding:12px;width:100%;background:purple;color:white;border:none">
+Save Booking
+</button>
 
 <script>
 
-/* Load booking data */
+function saveBooking(){
 
-function loadBookings(){
+let room=document.getElementById("room").value;
+let customer=document.getElementById("customer").value;
+let amount=document.getElementById("amount").value;
 
-let data = localStorage.getItem("hotelMaster");
-
-if(!data) return;
-
-let system = JSON.parse(data);
-
-let bookings = system.bookings || [];
-
-let html="";
-
-bookings.forEach(b=>{
-
-html+=`
-<tr>
-<td>${b.room}</td>
-<td>${b.customer}</td>
-<td>${b.amount}</td>
-<td>${b.date}</td>
-</tr>
-`;
-
-});
-
-document.getElementById("bookingTable").innerHTML = html;
+if(!room || !customer || !amount){
+alert("Fill all fields");
+return;
 }
 
-loadBookings();
+let today=new Date().toLocaleDateString();
+
+let data=localStorage.getItem("hotelMaster");
+
+let system=data?JSON.parse(data):{bookings:[]};
+
+system.bookings.push({
+room,
+customer,
+amount,
+date:today
+});
+
+localStorage.setItem("hotelMaster",JSON.stringify(system));
+
+alert("Booking Saved");
+location.href="booking-list.html";
+}
 
 </script>
 
